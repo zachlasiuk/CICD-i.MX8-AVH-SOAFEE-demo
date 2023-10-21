@@ -20,6 +20,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+
+
+      - name: Obtain Docker images
+        run: |
+          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container
+          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:application_container
+          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container
+        
+
       - name: Unit test (1) docker images exist
         run: |
           ls
