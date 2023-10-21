@@ -22,19 +22,18 @@ jobs:
 
       - name: Install Docker
         run: |
-          curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
-          sudo usermod -aG docker $USER ; newgrp docker
+          echo "pre-installed on runner. Proceed to next step"
         
       - name: Obtain Docker images
         run: |
-          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container
-          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:application_container
-          docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container
+          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container
+          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:application_container
+          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container
         
 
       - name: Unit test (1) docker images exist
         run: |
-          docker images
+          sudo docker images
 
       - name: Unit test (2) video container encodes .mp4 correctly
         run: |
