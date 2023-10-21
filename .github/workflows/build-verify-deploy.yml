@@ -1,4 +1,4 @@
-name: Build_Verify_Deployx2
+name: Build_Verify_Deploy_x2
 run-name: CI/CD pipeline 🚀
 on:
   push:
