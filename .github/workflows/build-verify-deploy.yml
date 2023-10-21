@@ -1,18 +1,58 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Build_Verify_Deployx2
+on:
+  push:
+  workflow_dispatch:
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: [self-hosted, build-and-verify]
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+     - uses: actions/checkout@v2
+
+     - name: build source images and containers
+       run: |
+        echo "Arm runners in GitHub Actions coming early next year!"
+        echo "...no code changes to build, in order to speed up the demo."
+         
+  verify:
+    needs: build
+    runs-on: [self-hosted, build-and-verify]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Unit test (1) docker images exist
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          ls
+
+      - name: Unit test (2) video container encodes .mp4 correctly
+        run: |
+          ls 
+
+      - name: Unit test (3) inference container takes in video stream correctly
+        run: |
+          ls        
+             
+      - name: Unit test (4) application container runs headless without error
+        run: |
+          ls   
+
+      - name: System test all containers working together correctly
+        run: |
+          ls
+
+  deploy-virtual:
+    needs: verify
+    runs-on: ubuntu
+    steps:
+      - name: Deploy to virtual board, Arm Virtual Hardware
+        run: |
+          echo "deploying to virtual AVH representation of i.MX board..."
+          ls
+
+  deploy-physical:
+    needs: verify
+    runs-on: ubuntu
+    steps:
+      - name: Deploy to physical board, i.MX8M Plus
+        run: |
+          echo "deploying to i.MX..."
+          ls
