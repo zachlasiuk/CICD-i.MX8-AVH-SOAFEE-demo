@@ -35,9 +35,13 @@ jobs:
         run: |
           sudo docker images
 
-      - name: Unit test (2) video container encodes .mp4 correctly
+      - name: Unit test (2) video container opens and encodes .mp4 correctly
         run: |
-          ls 
+          sudo docker run -d --name video_stream --network=host public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container ./rtsp-simple-server mp4.yml
+          sleep 5  # allow some time for the container to start and the script to run
+          timeout 10 sudo docker logs video_stream > video_output.txt
+          grep -q "publishing to path 'cam', with UDP, 2 tracks (H264, MPEG4Audio)" video_output.txt
+          sudo docker stop video_stream
 
       - name: Unit test (3) inference container takes in video stream correctly
         run: |
