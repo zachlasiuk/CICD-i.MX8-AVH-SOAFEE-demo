@@ -9,9 +9,9 @@ jobs:
     steps:
      - uses: actions/checkout@v2
 
-     - name: build source images and containers
+     - name: Build - Arm runners in GitHub coming next year!
        run: |
-        echo "Arm runners in GitHub Actions coming early next year!"
+        echo "Buildin source images and containers..."
         echo "...no code changes to build, in order to speed up the demo."
          
   verify:
@@ -42,7 +42,7 @@ jobs:
 
   deploy-virtual:
     needs: verify
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to virtual board, Arm Virtual Hardware
         run: |
@@ -51,7 +51,7 @@ jobs:
 
   deploy-physical:
     needs: verify
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to physical board, i.MX8M Plus
         run: |
