@@ -1,4 +1,5 @@
 name: Build_Verify_Deployx2
+run-name: CI/CD pipeline 🚀
 on:
   push:
   workflow_dispatch:
