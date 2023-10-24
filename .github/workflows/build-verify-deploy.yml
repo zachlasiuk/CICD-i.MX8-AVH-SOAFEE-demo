@@ -82,7 +82,7 @@ jobs:
 
       - name: Test ssh connection
         run: |
-          ssh -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
+          ssh -v -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
           ls
           cat /etc/os-release
 
