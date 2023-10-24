@@ -71,8 +71,8 @@ jobs:
           echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_ed25519.pub
           chmod 600 ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519.pub
-          ssh-keyscan -H ${{ secrets.AVH_IP }} >> ~/.ssh/known_hosts
-        
+          "${{ secrets.AVH_SSH_PUB_KEY }}" >> ~/.ssh/known_hosts
+
       - name: Test ssh connection
         run: |
           ssh -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
