@@ -73,6 +73,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519.pub
           echo "${{ secrets.AVH_SSH_PUB_KEY }}" > ~/.ssh/known_hosts
 
+      - name: Verify info
+        run: |
+          ls ~/.ssh/
+          cat ~/.ssh/known_hosts
+          cat ~/.ssh/id_ed25519.pub
+        
+
       - name: Test ssh connection
         run: |
           ssh -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
