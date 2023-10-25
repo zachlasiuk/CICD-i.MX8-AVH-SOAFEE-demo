@@ -72,7 +72,7 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519.pub
 
-          ssh-keyscan -H ${{ secrets.AVH_USER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H proxy.app.avh.arm.com >> ~/.ssh/known_hosts
 
 
       - name: Verify info
@@ -84,9 +84,17 @@ jobs:
 
       - name: Test ssh connection
         run: |
-          ssh -v -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
-          ls
+          ssh -v -J proxy.app.avh.arm.com root@10.11.0.6
+          ls 
           cat /etc/os-release
+      
+      - name: Jumphost
+        run: |
+          ssh -v -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
+          ls 
+          cat /etc/os-release
+    
+          
 
   deploy-physical:
     needs: verify
