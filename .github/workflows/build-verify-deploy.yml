@@ -84,7 +84,7 @@ jobs:
 
       - name: Test ssh connection
         run: |
-          ssh -v -J proxy.app.avh.arm.com root@10.11.0.6
+          ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J  ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6
           ls 
           cat /etc/os-release
       
