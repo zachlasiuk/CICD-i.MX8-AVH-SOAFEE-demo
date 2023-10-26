@@ -75,13 +75,13 @@ jobs:
 
       - name: Test SSH connection
         run: |
-          ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6 "echo "pwd in AVH\n"; pwd; echo "os-release\n" cat /etc/os-release"
-          echo "inside ssh machine? ls to find out, followed by cat"
-          ls
-          echo "pwd command."
-          pwd
-          echo "cat command."
-          cat /etc/os-release
+          ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6 "
+            echo 'pwd in AVH';    
+            pwd;    
+            echo 'os-release\n';    
+            cat /etc/os-release;
+          "
+
       
       #- name: Jumphost
       #  run: |
