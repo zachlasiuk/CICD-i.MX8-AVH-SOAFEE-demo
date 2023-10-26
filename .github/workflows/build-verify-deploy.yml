@@ -71,15 +71,31 @@ jobs:
       - name: Set up ssh
         run: |
           echo "ssh connection to AVH is already configured on the self-hosted runner EC2 machine."
-          ls ~/.ssh/       
+          ls ~/.ssh/ 
+          
+      - name: Clean existing running containers if existing
+        run: |
+          docker kill video_stream
+          docker kill inference_server
+          docker kill application
 
       - name: Test SSH connection
         run: |
           ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6 "
             echo 'pwd in AVH';    
             pwd;    
-            echo 'os-release\n';    
-            cat /etc/os-release;
+            echo 'Pulled docker already. Verify the images are present in the AVH machine'
+            docker images
+            echo 'start docker images'
+            echo '  video container start'
+            docker run --detach --rm --name video_stream --network=host public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container ./rtsp-simple-server mp4.yml
+            echo '  inference container start'
+            docker run --detach  --rm --network=host --name inference_server public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container -m tiny_yolov3 -p 8080
+            echo '  app container start, view output into file'
+            docker run -d --rm --network=host --name application public.ecr.aws/g1v9u7e2/github-universe-demo:application_container -r rtsp://localhost:8554/cam -p 8080 -m tiny_yolov3 -nui
+            sleep 5
+            container_id=$(docker ps -qf "name=application")
+            docker logs -f $container_id > output.log &
           "
 
       
