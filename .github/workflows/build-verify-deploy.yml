@@ -57,7 +57,7 @@ jobs:
 
   deploy-virtual:
     needs: verify
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, avh-middleman]
     steps:
       - name: Deploy to virtual board, Arm Virtual Hardware
         run: |
