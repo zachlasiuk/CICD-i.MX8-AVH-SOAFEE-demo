@@ -75,9 +75,10 @@ jobs:
 
       - name: Test SSH connection
         run: |
-          ssh -v -J  ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6
-          ls  
-          ls ~
+          ssh -J  ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6
+          echo "inside ssh machine? ls to find out, followed by cat"
+          ls
+          echo "cat command."
           cat /etc/os-release
       
       #- name: Jumphost
