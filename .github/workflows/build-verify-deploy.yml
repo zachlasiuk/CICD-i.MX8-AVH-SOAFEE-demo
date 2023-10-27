@@ -88,14 +88,9 @@ jobs:
             sleep 5;
             
             echo '  output docker logs to file';
-            sudo docker ps -qf "name=application
-            
-            container_id=$(sudo docker ps -qf "name=application");
-            
-            echo '  display container ID'
-            echo $container_id
 
-            sudo docker logs -f $container_id > output.log &
+
+            sudo docker logs -f $(sudo docker ps -qf "name=application") > output.log &
             sleep 1;
 
             echo '  read logs';
