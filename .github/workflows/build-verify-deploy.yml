@@ -85,33 +85,7 @@ jobs:
             whoami;
 
             echo 'kill docker containers if running'
-            sudo docker rm -f video_stream || true
-            sudo docker rm -f inference_server || true
-            sudo docker rm -f application || true
-
             
-            echo 'pwd in AVH';    
-            pwd;    
-            echo 'Pulled docker already. Verify the images are present in the AVH machine'
-            sudo docker images
-            echo 'start docker images'
-            
-            echo '  video container start'
-            sudo docker run --detach --rm --name video_stream --network=host public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container ./rtsp-simple-server mp4.yml
-            
-            echo '  inference container start'
-            sudo docker run --detach  --rm --network=host --name inference_server public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container -m tiny_yolov3 -p 8080
-            
-            echo '  app container start, view output into file'
-            docker run -d --rm --network=host --name application public.ecr.aws/g1v9u7e2/github-universe-demo:application_container -r rtsp://localhost:8554/cam -p 8080 -m tiny_yolov3 -nui
-            
-            sleep 5
-            
-            echo '  output docker logs to file'
-            container_id=$(docker ps -qf "name=application")
-            docker logs -f $container_id > output.log &
-
-            echo '  read logs'
 
           "
 
