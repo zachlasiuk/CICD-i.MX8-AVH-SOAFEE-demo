@@ -85,7 +85,7 @@ jobs:
             echo '  app container start, view output into file';
             sudo docker run -d --rm --network=host --name application public.ecr.aws/g1v9u7e2/github-universe-demo:application_container -r rtsp://localhost:8554/cam -p 8080 -m tiny_yolov3 -nui;
             
-            sleep 5;
+            sleep 10;
             
 
             echo '   read logs'; 
