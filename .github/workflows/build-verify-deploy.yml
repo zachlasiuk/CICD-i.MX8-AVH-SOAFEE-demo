@@ -87,10 +87,10 @@ jobs:
             
             echo '  output docker logs to file';
             container_id=$(docker ps -qf "name=application");
-            docker logs -f $container_id > output.log &;
+            docker logs -f $container_id > output.log &
 
             echo '  read logs';
-
+            cat output.log;
           "
 
 
