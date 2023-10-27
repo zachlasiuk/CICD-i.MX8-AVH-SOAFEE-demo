@@ -2,7 +2,7 @@ name: Build_Verify_Deploy_x2
 run-name: CI/CD pipeline 🚀
 on:
   push:
-  workflow_dispatch:
+  workflow_dispatch: 
 jobs:
   build:
     runs-on: [self-hosted, build-and-verify]
@@ -111,4 +111,4 @@ jobs:
       - name: Deploy to physical board, i.MX8M Plus
         run: |
           echo "deploying to i.MX..."
-          ls
+          
