@@ -36,7 +36,7 @@ jobs:
           echo 'Run your unit tests here, in the following places:'
           echo '   Arm cloud    - docker containers'
           echo '   AVH in cloud - docker containers'
-          echo '   i.MX board   - docker containers'
+          echo '   i.MX board   - docker containers' 
 
 
   deploy-virtual:
