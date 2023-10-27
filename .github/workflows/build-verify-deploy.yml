@@ -87,14 +87,9 @@ jobs:
             
             sleep 5;
             
-            echo '  output docker logs to file';
 
-
-            sudo docker logs -f $(sudo docker ps -qf "name=application") > output.log &
-            sleep 1;
-
-            echo '  read logs';
-            cat output.log;
+            echo '   read logs'; 
+            sudo docker logs application;
           "
 
 
