@@ -66,7 +66,9 @@ jobs:
             sudo docker rm -f video_stream || true;
             sudo docker rm -f inference_server || true;
             sudo docker rm -f application || true;
-            
+
+            echo 'remove previous log file if present'
+            rm output.log || true
 
 
             echo 'Pulled docker already. Verify the images are present in the AVH machine';
@@ -86,9 +88,14 @@ jobs:
             sleep 5;
             
             echo '  output docker logs to file';
-            container_id=$(docker ps -qf "name=application");
-            docker logs -f $container_id > output.log &
+            container_id=$(sudo docker ps -qf "name=application");
+            
+            echo '  display container ID'
+            echo $container_id
 
+            sudo docker logs -f $container_id > output.log &
+            sleep 1;
+            
             echo '  read logs';
             cat output.log;
           "
