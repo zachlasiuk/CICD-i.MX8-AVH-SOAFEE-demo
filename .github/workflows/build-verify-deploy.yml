@@ -81,7 +81,7 @@ jobs:
 
       - name: Test SSH connection
         run: |
-          ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.6 "
+          ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.5 "
             whoami;
 
             echo 'kill docker containers if running'
