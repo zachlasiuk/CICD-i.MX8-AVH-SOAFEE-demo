@@ -9,7 +9,7 @@ jobs:
     steps:
      - uses: actions/checkout@v2
 
-     - name: Build - Arm runners in GitHub coming next year!
+     - name: Build - Arm runners in GitHub coming next year! 
        run: |
         echo "Buildin source images and containers..."
         echo "...no code changes to build, in order to speed up the demo."
