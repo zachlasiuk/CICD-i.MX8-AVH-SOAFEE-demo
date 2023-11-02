@@ -25,17 +25,21 @@ jobs:
        run: |
         echo 'Verify the containers were built and exist as expected.'
         echo ''
+        echo "existance alraedy verified to optimize for demo."
 
 
      - name: Verify - 2) communication tests
        run: |
          echo 'Verify the containers run and ports are open to communicate with one another as expected.'
          echo ''
+         echo "communication alraedy verified to optimize for demo."
+
 
      - name: Push app to container repository
        run: |
         echo "Pushing containers to AWS ECR, to be deployed directly onto the virtual and physical i.MX8 board."
         echo '' 
+        echo "pushing already done to optimize for demo."
 
   deploy-virtual:
     needs: build-and-verify
