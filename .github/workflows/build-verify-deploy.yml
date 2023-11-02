@@ -7,7 +7,7 @@ jobs:
   build-and-verify:
     runs-on: [self-hosted, build-and-verify]
     steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v3
 
      - name: Build application
        run: |
