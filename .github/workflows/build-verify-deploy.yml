@@ -92,7 +92,7 @@ jobs:
           
   deploy-physical: 
     needs: build-and-verify
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, imx-middleman]
     steps:
       - name: Deploy to physical board, i.MX8M Plus
         run: |
