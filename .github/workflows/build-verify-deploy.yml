@@ -41,13 +41,9 @@ jobs:
     needs: build-and-verify
     runs-on: [self-hosted, avh-middleman]
     steps:
-      - name: Deploy to virtual board, Arm Virtual Hardware
+      - name: Set up ssh connection
         run: |
-          echo "deploying to virtual AVH representation of i.MX board..."
-
-      - name: Set up ssh
-        run: |
-          echo "ssh connection to AVH is already configured on the self-hosted runner EC2 machine."
+          echo "ssh connection to AVH is already configured on this runner. Keyfiles exist in the ~/.ssh/ dir here:"
           ls ~/.ssh/  
 
       - name: Deploy to virtual AVH i.MX8 board
@@ -76,9 +72,17 @@ jobs:
             
             echo '  wait for containers to connect together and start running inferences.';
             sleep 10;
+
+            echo '  Verify app is running as expected by checking logs for expected output:';
+            if sudo docker logs application | grep -q "Taking input from RTSP stream...."; then
+              echo "TRUE";
+            else;
+              echo "FALSE";
+            fi;
+
             
 
-            echo '   read logs'; 
+            echo '   display logs for viewing'; 
             sudo docker logs application;
 
 
