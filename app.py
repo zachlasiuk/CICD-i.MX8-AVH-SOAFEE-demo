@@ -10,3 +10,8 @@ if __name__ == "__main__":
     print("   Application: Traffic monitoring microservices:")
     print("                    https://gitlab.com/Linaro/blueprints/software-defined-camera/reference-use-cases/traffic-monitoring/application-microservices/")
     print("-------------------")
+
+
+# TO DO:
+#    Make simple tests in verify (connection? some affermation grepping the port is open)
+#    Make videos
