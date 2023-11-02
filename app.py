@@ -13,5 +13,6 @@ if __name__ == "__main__":
 
 
 # TO DO:
-#    Make simple tests in verify (connection? some affermation grepping the port is open)
-#    Make videos
+#    Add port traffic on port 5000 to allow virtual board display!
+#    Videos emphasize the same images on virtual and physical boards!
+#     record videos
