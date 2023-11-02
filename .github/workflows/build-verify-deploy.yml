@@ -96,7 +96,7 @@ jobs:
     steps:
       - name: Deploy to physical board, i.MX8M Plus
         run: |
-          ssh -T ${{secrets.IMX_BOARD__USER_IP}} "
+          ssh -T ${{secrets.IMX_BOARD__USER_IP}} " 
             echo 'inside i.MX via ssh connection.';
 
             echo 'kill docker containers if running';
