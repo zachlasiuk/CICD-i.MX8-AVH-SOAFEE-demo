@@ -4,43 +4,41 @@ on:
   push:
   workflow_dispatch: 
 jobs:
-  build:
+  build-and-verify:
     runs-on: [self-hosted, build-and-verify]
     steps:
      - uses: actions/checkout@v2
 
-     - name: Build 
+     - name: Build application
        run: |
-        echo "Buildin source images and containers..."
-        echo "...no code changes to build, in order to speed up the demo."
-         
-  verify:
-    needs: build
-    runs-on: [self-hosted, build-and-verify]
-    steps:
-      - uses: actions/checkout@v2
+        echo "Building source images and containers..."
+        echo "...not rebuilding ML app, to speed up the CI/CD portion of the demo. Using pre-built code."
 
-      - name: Install Docker
-        run: |
-          echo "pre-installed on runner. Proceed to next step"
-        
-      - name: Obtain Docker images
-        run: |
-          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container
-          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:application_container
-          sudo docker pull public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container
-        
+        echo "==================================================="
+        echo ""
+        echo "ANNOUNCEMENT: Native Arm runners coming next year!"
+        echo ""
+        echo "==================================================="
 
-      - name: Unit test (1) 
-        run: |
-          echo 'Run your unit tests here, in the following places:'
-          echo '   Arm cloud    - docker containers'
-          echo '   AVH in cloud - docker containers'
-          echo '   i.MX board   - docker containers' 
 
+     - name: Verify - 1) existance tests
+       run: |
+        echo 'Verify the containers were built and exist as expected.'
+        echo ''
+
+
+     - name: Verify - 2) communication tests
+       run: |
+         echo 'Verify the containers run and ports are open to communicate with one another as expected.'
+         echo ''
+
+     - name: Push app to container repository
+       run: |
+        echo "Pushing containers to AWS ECR, to be deployed directly onto the virtual and physical i.MX8 board."
+        echo '' 
 
   deploy-virtual:
-    needs: verify
+    needs: build-and-verify
     runs-on: [self-hosted, avh-middleman]
     steps:
       - name: Deploy to virtual board, Arm Virtual Hardware
@@ -52,15 +50,10 @@ jobs:
           echo "ssh connection to AVH is already configured on the self-hosted runner EC2 machine."
           ls ~/.ssh/  
 
-      - name: Test SSH connection
+      - name: Deploy to virtual AVH i.MX8 board
         run: |
           ssh -T -J ae53f196-f856-4fe8-b365-b604c5af7540@proxy.app.avh.arm.com root@10.11.0.7 "
             echo 'inside AVH via ssh connection.';
-            echo ' Check who I am';
-            whoami;
-
-            echo 'check where I am';    
-            pwd;    
 
             echo 'kill docker containers if running';
             sudo docker rm -f video_stream || true;
@@ -78,9 +71,10 @@ jobs:
             echo '  inference container start';
             sudo docker run --detach  --rm --network=host --name inference_server public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container -m tiny_yolov3 -p 8080;
             
-            echo '  app container start, view output into file';
+            echo '  app container start, while recording logs';
             sudo docker run -d --rm --network=host --name application public.ecr.aws/g1v9u7e2/github-universe-demo:application_container -r rtsp://localhost:8554/cam -p 8080 -m tiny_yolov3 -nui;
             
+            echo '  wait for containers to connect together and start running inferences.';
             sleep 10;
             
 
@@ -88,27 +82,51 @@ jobs:
             sudo docker logs application;
 
 
-            echo '   clean up by stopping containers'
+            echo '   clean up by stopping containers';
             sudo docker rm -f video_stream || true;
             sudo docker rm -f inference_server || true;
             sudo docker rm -f application || true;
           "
 
-
-      
-      #- name: Jumphost
-      #  run: |
-      #    ssh -v -J ${{ secrets.JUMP_HOST }} ${{ secrets.AVH_USER_IP }}
-      #    ls 
-      #    cat /etc/os-release
-    
           
-
   deploy-physical:
-    needs: verify
+    needs: build-and-verify
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to physical board, i.MX8M Plus
         run: |
-          echo "deploying to i.MX..."
-          
+          ssh -T ${{secrets.IMX_BOARD__USER_IP}} "
+            echo 'inside i.MX via ssh connection.';
+
+            echo 'kill docker containers if running';
+            sudo docker rm -f video_stream || true;
+            sudo docker rm -f inference_server || true;
+            sudo docker rm -f application || true;
+
+            echo 'Pulled docker already. Verify the images are present on the i.MX8 board';
+            sudo docker images;
+
+            echo 'start docker images';
+            
+            echo '  video container start';
+            sudo docker run --detach --rm --name video_stream --network=host public.ecr.aws/g1v9u7e2/github-universe-demo:video_capture_container ./rtsp-simple-server mp4.yml;
+            
+            echo '  inference container start';
+            sudo docker run --detach  --rm --network=host --name inference_server public.ecr.aws/g1v9u7e2/github-universe-demo:inference_container -m tiny_yolov3 -p 8080;
+            
+            echo '  app container start, while recording logs';
+            sudo docker run -d --rm --network=host --name application public.ecr.aws/g1v9u7e2/github-universe-demo:application_container -r rtsp://localhost:8554/cam -p 8080 -m tiny_yolov3 -nui;
+            
+            echo '  wait for containers to connect together and start running inferences.';
+            sleep 10;
+            
+
+            echo '   read logs'; 
+            sudo docker logs application;
+
+
+            echo '   clean up by stopping containers';
+            sudo docker rm -f video_stream || true;
+            sudo docker rm -f inference_server || true;
+            sudo docker rm -f application || true;
+          "
