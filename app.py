@@ -1,6 +1,6 @@
 if __name__ == "__main__":
     print("-------------------")
-    print("Placeholder application file to edit and trigger CI/CD workflow...")
+    print("Placeholder application file to edit and trigger CI/CD workflow.")
     print("")
     print("Demo application source code can be found on the Linaro GitLab, which includes:")
     print("")
