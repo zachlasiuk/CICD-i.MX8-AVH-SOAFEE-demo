@@ -120,11 +120,15 @@ jobs:
             
             echo '  wait for containers to connect together and start running inferences.';
             sleep 10;
-            
 
-            echo '   read logs'; 
+            echo '  Verify app is running as expected by checking logs for expected output:';
+            echo ''
+            sudo docker logs application | grep -q 'Taking input from RTSP stream....' && echo 'TRUE, APP DEPLOYED AND RUNNING' || echo 'FALSE';            
+            echo ''
+            echo ''
+
+            echo '   display logs for viewing'; 
             sudo docker logs application;
-
 
             echo '   clean up by stopping containers';
             sudo docker rm -f video_stream || true;
