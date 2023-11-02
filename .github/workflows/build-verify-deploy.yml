@@ -74,7 +74,10 @@ jobs:
             sleep 10;
 
             echo '  Verify app is running as expected by checking logs for expected output:';
-            sudo docker logs application | grep -q 'Taking input from RTSP stream....' && echo 'TRUE' || echo 'FALSE';            
+            echo ''
+            sudo docker logs application | grep -q 'Taking input from RTSP stream....' && echo 'TRUE, APP DEPLOYED AND RUNNING' || echo 'FALSE';            
+            echo ''
+            echo ''
 
             echo '   display logs for viewing'; 
             sudo docker logs application;
