@@ -102,7 +102,7 @@ jobs:
             echo 'kill docker containers if running';
             sudo docker rm -f video_stream || true;
             sudo docker rm -f inference_server || true;
-            sudo docker rm -f application || true;
+            sudo docker rm -f application || true; 
 
             echo 'Pulled docker already. Verify the images are present on the i.MX8 board';
             sudo docker images;
