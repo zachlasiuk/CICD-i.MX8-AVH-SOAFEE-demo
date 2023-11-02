@@ -10,3 +10,4 @@ if __name__ == "__main__":
     print("   Application: Traffic monitoring microservices:")
     print("                    https://gitlab.com/Linaro/blueprints/software-defined-camera/reference-use-cases/traffic-monitoring/application-microservices/")
     print("-------------------")
+ 
