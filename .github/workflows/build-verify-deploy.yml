@@ -90,7 +90,7 @@ jobs:
           "
 
           
-  deploy-physical:
+  deploy-physical: 
     needs: build-and-verify
     runs-on: ubuntu-latest
     steps:
